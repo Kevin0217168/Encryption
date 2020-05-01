@@ -1,5 +1,7 @@
 #include "Encryption.h"
 
+#define LEN(arr) (sizeof(arr) / sizeof(arr[0]))
+
 // 初始化摩斯电码对照表
 const string Encryption::Mosi[36] = { ".-", "-...", "-.-.", "-..", ".",            // A B C D E
     "..-.", "--.", "....", "..", ".---",         // F G H I J
@@ -10,6 +12,21 @@ const string Encryption::Mosi[36] = { ".-", "-...", "-.-.", "-..", ".",         
     ".----", "..---", "...--", "....-", ".....", // 1 2 3 4 5
     "-....", "--...", "---..", "----.", "-----", // 6 7 8 9 0 
 };
+
+// 初始化九键对应表
+const char Encryption::Jiujian[9][4] = {{'A', 'B', 'C', '#'}, 
+                                        {'D', 'E', 'F', '#'},
+                                        {'G', 'H', 'I', '#'},
+                                        {'J', 'K', 'L', '#'},
+                                        {'M', 'N', 'O', '#'},
+                                        {'P', 'O', 'R', 'S'},
+                                        {'T', 'U', 'V', '#'},
+                                        {'W', 'X', 'Y', 'Z'}};
+
+// 初始化26键对应字母表
+const char Encryption::Jian26[26] = { 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P',
+                                      'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L',
+                                      'Z', 'X', 'C', 'V', 'B', 'N', 'M',};
 
 Encryption::Encryption()
 {
@@ -38,7 +55,7 @@ int Encryption::EnMosi(string* str, string* result)
         }
         // 1~9数字部分
         else if (*it > 47 && *it < 58){
-            *result += Mosi[*it + 36 - 49];
+            *result += Mosi[*it - 23];
         }
         // 不属于以上的任何部分，输入错误，返回错误码
         else {
@@ -226,9 +243,9 @@ int Encryption::EnShanlan(string* str, string* result)
 }
 
 /*
-栅栏加密程序
-参数：str:要加密的明文(仅限字母、数字)(支持大小写)
-result: 密文
+栅栏解密程序
+参数：str:要解密的密文(仅限字母、数字)(支持大小写)
+result: 明文
 返回：int: 错误码(0:成功, 1[ERROR]:失败)
 时间复杂度: O(n/2)
 */
@@ -257,3 +274,93 @@ int Encryption::DeShanlan(string* str, string* result)
     }
     return 0;
 }
+
+
+/*
+九键字母转数字加密程序
+参数：str:要加密的明文(仅限大写字母)
+result: 密文
+返回：int: 错误码(0:成功, 1[ERROR]:失败)
+时间复杂度: O(n/2)
+*/
+int Encryption::EnJiujian(string* str, string* result)
+{
+    result->clear();
+
+    bool mark = false;
+    // 偶数加
+    for (string::iterator it = str->begin(); it < str->end(); ++it) {
+        // 判断是否是大写字母
+        if (*it > 64 && *it < 91) {
+            mark = false;
+            for (int y = 0; y < 9; y++) {
+                for (int x = 0; x < LEN(Jiujian[y]); x++) {
+                    if (Jiujian[y][x] == *it) {
+                        char str[2];
+                        _itoa_s(y+2, str, 10);
+                        *result += str;
+                        _itoa_s(x+1, str, 10);
+                        *result += str;
+                        mark = true;
+                    }
+                }
+            }
+            if (!mark) {
+                return ERROR;
+            }
+        }
+        else {
+            return ERROR;
+        }
+    }
+    return 0;
+}
+
+
+/*
+九键数字转字母程序
+参数：str:要解密的密文(仅限数字字符串)
+result: 密文
+返回：int: 错误码(0:成功, 1[ERROR]:失败)
+时间复杂度: O(n/2)
+*/
+int Encryption::DeJiujian(string* str, string* result)
+{
+    result->clear();
+
+    // 奇数检查，为奇数时抛出错误
+    if (str->size() % 2 == 1) {
+        return ERROR;
+    }
+
+    // 奇数走
+    for (string::iterator it = str->begin(); it < str->end(); it += 2) {
+        // 判断是否是数字
+        if (*it > 47 && *it < 58) {
+            // 判断索引是否正确
+            // ascii转数字
+            int a_index = *it - 48 - 2;
+            int b_index = *(it + 1) - 48 - 1;
+            if (a_index >= 0 && b_index < 4) {
+                char ch = Jiujian[a_index][b_index];
+                if (ch != '#') {
+                    *result += ch;
+                }
+                else {
+                    // 索引超限，错误
+                    return ERROR;
+                }
+            }
+            else {
+                // 数字索引不正确
+                return ERROR;
+            }
+        }
+        else {
+            // 其他字符，错误
+            return ERROR;
+        }
+    }
+    return 0;
+}
+

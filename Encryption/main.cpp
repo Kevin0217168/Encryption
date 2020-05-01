@@ -26,10 +26,16 @@ int main(void) {
 
 	// Õ¤À¸ÃÜÂë¼ÓÃÜ
 	Encryption::EnShanlan(&str, &result);
-	cout << "Õ¤À¸ÃÜÂë¼ÓÃÜ(Æ«ÒÆ5Î»)£º" << result << endl;
+	cout << "Õ¤À¸ÃÜÂë¼ÓÃÜ£º" << result << endl;
 	// Õ¤À¸ÃÜÂë½âÃÜ
 	Encryption::DeShanlan(&result, &re1);
-	cout << "Õ¤À¸ÃÜÂë¼ÓÃÜ(Æ«ÒÆ5Î»)£º" << re1 << endl;
+	cout << "Õ¤À¸ÃÜÂë¼ÓÃÜ£º" << re1 << endl;
 
+	// ¾Å¼ü×ÖÄ¸×ªÊı×Ö¼ÓÃÜ
+	cout << Encryption::EnJiujian(&str, &result) << endl;
+	cout << "¾Å¼ü×ÖÄ¸×ªÊı×Ö¼ÓÃÜ£º" << result << endl;
+	// ¾Å¼üÊı×Ö×ª×ÖÄ¸½âÃÜ
+	cout << Encryption::DeJiujian(&result, &re1) << endl;
+	cout << "¾Å¼üÊı×Ö×ª×ÖÄ¸½âÃÜ£º" << re1 << endl;
 	return 0;
 }

@@ -1,5 +1,6 @@
 #include <string>
 #include <vector>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -27,10 +28,19 @@ public:
 	// 栅栏解密
 	static int DeShanlan(string* str, string* result);
 
+	// 九键字母转数字加密
+	static int EnJiujian(string* str, string* result);
+	// 九键数字转字母解密
+	static int DeJiujian(string* str, string* result);
+
+
 private:
 	// 定义摩斯电码对照表
 	static const string Mosi[36];
 	// 摩斯电码表索引转ascii
 	static char IndexToAbc(int i);
+	// 九键对应字母表
+	static const char Jiujian[9][4];
+	// 26键对应字母表
+	static const char Jian26[26];
 };
-
