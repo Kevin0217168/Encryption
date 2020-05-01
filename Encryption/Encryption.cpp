@@ -114,7 +114,7 @@ result: 密文
 返回：int: 错误码(0:成功, 1[ERROR]:失败)
 时间复杂度: O(n)
 */
-int Encryption::Enkaisa(string *str, int index, string *result)
+int Encryption::EnKaisa(string *str, int index, string *result)
 {
     if (index > 0 && index < 26) {
         result->clear();
@@ -162,20 +162,98 @@ result: 明文
 返回：int: 错误码(0:成功, 1[ERROR]:失败)
 时间复杂度: O(n)
 */
-int Encryption::Dekaisa(string* str, int index, string* result)
+int Encryption::DeKaisa(string* str, int index, string* result)
 {
     // 输入检查
     if (index > 0 && index < 26) {
         // 偷懒，嘿嘿，其实实现方式是一样的
-        int ret = Enkaisa(str, 26, result);
+        int ret = EnKaisa(str, 26, result);
         if (ret == ERROR) {
             return ret;
         }
-        Enkaisa(str, index, result);
+        EnKaisa(str, index, result);
     }
     else {
         // 偏移不符合标准，错误
         return ERROR;
+    }
+    return 0;
+}
+
+/*
+栅栏加密程序
+参数：str:要加密的明文(仅限字母、数字)(支持大小写)
+result: 密文
+返回：int: 错误码(0:成功, 1[ERROR]:失败)
+时间复杂度: O(n/2)
+*/
+int Encryption::EnShanlan(string* str, string* result)
+{
+    result->clear();
+    // 奇数加
+    for (string::iterator it = str->begin(); it < str->end(); ++it) {
+        // 判断是否是字母或数字
+        if (*it > 64 && *it < 91 || *it > 96 && *it < 123 || *it > 47 && *it < 58) {
+            *result += *it;
+        }
+        else {
+            return ERROR;
+        }
+        if (it + 1 >= str->end()) {
+            break;
+        }
+        else {
+            it += 1;
+        }
+    }
+    // 偶数加
+    for (string::iterator it = str->begin()+1; it < str->end(); ++it) {
+        // 判断是否是字母或数字
+        if (*it > 64 && *it < 91 || *it > 96 && *it < 123 || *it > 47 && *it < 58) {
+            *result += *it;
+        }
+        else {
+            return ERROR;
+        }
+        if (it + 1 >= str->end()) {
+            break;
+        }
+        else {
+            it += 1;
+        }
+    }
+    return 0;
+}
+
+/*
+栅栏加密程序
+参数：str:要加密的明文(仅限字母、数字)(支持大小写)
+result: 密文
+返回：int: 错误码(0:成功, 1[ERROR]:失败)
+时间复杂度: O(n/2)
+*/
+int Encryption::DeShanlan(string* str, string* result)
+{
+    result->clear();
+
+    // 将密文从中间截开
+    int middle = str->size() / 2;
+    if (str->size() % 2 != 0) {
+        middle += 1;
+    }
+    int a_index = 0;
+    int b_index = middle;
+
+    // 从两个列表中依次取出数据
+    while (b_index < str->size()) {
+        *result += str->at(a_index);
+        a_index++;
+        *result += str->at(b_index);
+        b_index++;
+    }
+    // 数据为奇数时，需要将最后一个数据输出
+    if (str->size() % 2 != 0) {
+        *result += str->at(a_index);
     }
     return 0;
 }

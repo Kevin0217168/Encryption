@@ -18,12 +18,18 @@ int main(void) {
 	cout << "Ä¦Ë¹µçÂë½âÃÜ£º" << re1 << endl << endl;
 
 	// ¿­ÈöÃÜÂë¼ÓÃÜ
-	Encryption::Enkaisa(&str, 5, &result);
+	Encryption::EnKaisa(&str, 5, &result);
 	cout << "¿­ÈöÃÜÂë¼ÓÃÜ(Æ«ÒÆ5Î»)£º" << result << endl;
 	// ¿­ÈöÃÜÂë½âÃÜ
-	Encryption::Dekaisa(&result, 5, &re1);
-	cout << "¿­ÈöÃÜÂë¼ÓÃÜ(Æ«ÒÆ5Î»)£º" << re1 << endl;
+	Encryption::DeKaisa(&result, 5, &re1);
+	cout << "¿­ÈöÃÜÂë¼ÓÃÜ(Æ«ÒÆ5Î»)£º" << re1 << endl << endl;
 
+	// Õ¤À¸ÃÜÂë¼ÓÃÜ
+	Encryption::EnShanlan(&str, &result);
+	cout << "Õ¤À¸ÃÜÂë¼ÓÃÜ(Æ«ÒÆ5Î»)£º" << result << endl;
+	// Õ¤À¸ÃÜÂë½âÃÜ
+	Encryption::DeShanlan(&result, &re1);
+	cout << "Õ¤À¸ÃÜÂë¼ÓÃÜ(Æ«ÒÆ5Î»)£º" << re1 << endl;
 
 	return 0;
 }

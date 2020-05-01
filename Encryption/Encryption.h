@@ -18,9 +18,14 @@ public:
 	static int DeMosi(string *str, string *result);
 
 	// 凯撒加密
-	static int Enkaisa(string *str, int index, string *result);
+	static int EnKaisa(string *str, int index, string *result);
 	// 凯撒解密
-	static int Dekaisa(string *str, int index, string *result);
+	static int DeKaisa(string *str, int index, string *result);
+
+	// 栅栏加密
+	static int EnShanlan(string* str, string* result);
+	// 栅栏解密
+	static int DeShanlan(string* str, string* result);
 
 private:
 	// 定义摩斯电码对照表
