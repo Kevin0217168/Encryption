@@ -33,6 +33,11 @@ public:
 	// 九键数字转字母解密
 	static int DeJiujian(string* str, string* result);
 
+	// 26键字母键盘加密
+	static int EnJian26(string* str, string* result);
+	// 26键字母键盘解密
+	static int DeJian26(string* str, string* result);
+
 
 private:
 	// 定义摩斯电码对照表

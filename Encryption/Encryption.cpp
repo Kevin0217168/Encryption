@@ -364,3 +364,66 @@ int Encryption::DeJiujian(string* str, string* result)
     return 0;
 }
 
+/*
+26¼ü×ÖÄ¸¼üÅÌ¼ÓÃÜ
+²ÎÊı£ºstr:Ã÷ÎÄ(½öÏŞ´óĞ´×ÖÄ¸×Ö·û´®)
+result: ÃÜÎÄ
+·µ»Ø£ºint: ´íÎóÂë(0:³É¹¦, 1[ERROR]:Ê§°Ü)
+Ê±¼ä¸´ÔÓ¶È: O(n)
+*/
+int Encryption::EnJian26(string* str, string* result)
+{
+    result->clear();
+
+    for (string::iterator it = str->begin(); it < str->end(); ++it) {
+        // ÅĞ¶ÏÊÇ·ñÊÇ´óĞ´×ÖÄ¸
+        if (*it > 64 && *it < 91) {
+            *result += Jian26[*it - 65];
+        }
+        else {
+            // ×Ö·û·Ç·¨£¬´íÎó
+            return ERROR;
+        }
+    }
+    return 0;
+}
+
+/*
+26¼ü×ÖÄ¸¼üÅÌ½âÃÜ
+²ÎÊı£ºstr:Òª½âÃÜµÄÃÜÎÄ(½öÏŞ´óĞ´×ÖÄ¸×Ö·û´®)
+result: Ã÷ÎÄ
+·µ»Ø£ºint: ´íÎóÂë(0:³É¹¦, 1[ERROR]:Ê§°Ü)
+Ê±¼ä¸´ÔÓ¶È: O(n)
+*/
+int Encryption::DeJian26(string* str, string* result)
+{
+    result->clear();
+
+    for (string::iterator it = str->begin(); it < str->end(); ++it) {
+        // ÅĞ¶ÏÊÇ·ñÊÇ´óĞ´×ÖÄ¸
+        if (*it > 64 && *it < 91) {
+            int i = 0;
+            while (true) {
+                if (Jian26[i] == *it) {
+                    // ½«×ÖÄ¸´æÈë
+                    *result += i + 65;
+                    // ÍË³öÑ­»·
+                    break;
+                }
+                // Ë÷ÒıºóÒÆ
+                if (i < 26) {
+                    i++;
+                }
+                else {
+                    // Èç¹û¼ì²éµ½×îºóÈÔÎ´½á¹û£¬Ôò·µ»Ø´íÎó
+                    return ERROR;
+                }
+            }
+        }
+        else {
+            // ×Ö·û·Ç·¨£¬´íÎó
+            return ERROR;
+        }
+    }
+    return 0;
+}

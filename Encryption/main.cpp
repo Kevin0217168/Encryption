@@ -29,13 +29,21 @@ int main(void) {
 	cout << "Õ¤À¸ÃÜÂë¼ÓÃÜ£º" << result << endl;
 	// Õ¤À¸ÃÜÂë½âÃÜ
 	Encryption::DeShanlan(&result, &re1);
-	cout << "Õ¤À¸ÃÜÂë¼ÓÃÜ£º" << re1 << endl;
+	cout << "Õ¤À¸ÃÜÂë¼ÓÃÜ£º" << re1 << endl << endl;
 
 	// ¾Å¼ü×ÖÄ¸×ªÊý×Ö¼ÓÃÜ
-	cout << Encryption::EnJiujian(&str, &result) << endl;
+	Encryption::EnJiujian(&str, &result);
 	cout << "¾Å¼ü×ÖÄ¸×ªÊý×Ö¼ÓÃÜ£º" << result << endl;
 	// ¾Å¼üÊý×Ö×ª×ÖÄ¸½âÃÜ
-	cout << Encryption::DeJiujian(&result, &re1) << endl;
-	cout << "¾Å¼üÊý×Ö×ª×ÖÄ¸½âÃÜ£º" << re1 << endl;
+	Encryption::DeJiujian(&result, &re1);
+	cout << "¾Å¼üÊý×Ö×ª×ÖÄ¸½âÃÜ£º" << re1 << endl << endl;
+
+	// 26¼ü×ÖÄ¸¼üÅÌ¼ÓÃÜ
+	Encryption::EnJian26(&str, &result);
+	cout << "26¼ü×ÖÄ¸¼üÅÌ¼ÓÃÜ£º" << result << endl;
+	// 26¼ü×ÖÄ¸¼üÅÌ½âÃÜ
+	Encryption::DeJian26(&result, &re1);
+	cout << "26¼ü×ÖÄ¸¼üÅÌ½âÃÜ£º" << re1 << endl << endl;
+
 	return 0;
 }
